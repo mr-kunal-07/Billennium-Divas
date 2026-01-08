@@ -71,7 +71,7 @@ const investorSchema = new mongoose.Schema<IInvestor>(
         },
         accountStatus: {
             type: String,
-            enum: ["pending", "approved", "rejected"],
+            enum: ["pending", "approved"],
             default: "pending",
         },
 

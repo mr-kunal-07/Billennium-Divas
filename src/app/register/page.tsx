@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
-import { ArrowRight, Building, User, LucideIcon } from "lucide-react";
+import { ArrowRight, Building, User, LucideIcon, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // ==== TYPES ====
 interface RoleType {
@@ -75,56 +76,62 @@ export default function Page() {
     const handleLogin = () => router.push("/login");
 
     return (
-        <div className="min-h-screen text-black flex justify-center items-center px-4 py-8">
-            <div className="flex flex-col items-center">
-                {/* Header */}
-                <div className="text-center mb-10">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-3">
-                        Choose Your Role
-                    </h1>
-                </div>
+        <div className="min-h-screen max-w-3xl mx-auto   px-4 py-8">
+            <Link href="/" className="inline-flex items-center text-pink-700 gap-1 mb-4 hover:text-pink-800 transition-colors">
+                <ArrowLeft className="w-5 h-5" />
+                <span className="font-medium">Back</span>
+            </Link>
+            <div className="flex flex-col items-center justify-center h-full" >
+                <div className="flex flex-col items-center">
+                    {/* Header */}
+                    <div className="text-center mb-10">
+                        <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-3">
+                            Choose Your Role
+                        </h1>
+                    </div>
 
-                {/* Role Cards */}
-                <div className="flex flex-col md:flex-row gap-8">
-                    {ROLES.map((role) => (
-                        <RoleCard
-                            key={role.id}
-                            role={role}
-                            isSelected={selectedRole?.id === role.id}
-                            onSelect={setSelectedRole}
-                        />
-                    ))}
-                </div>
+                    {/* Role Cards */}
+                    <div className="flex flex-col md:flex-row gap-8">
+                        {ROLES.map((role) => (
+                            <RoleCard
+                                key={role.id}
+                                role={role}
+                                isSelected={selectedRole?.id === role.id}
+                                onSelect={setSelectedRole}
+                            />
+                        ))}
+                    </div>
 
-                {/* Continue Button */}
-                <button
-                    onClick={handleContinue}
-                    disabled={!selectedRole}
-                    className={`px-8 py-3.5 mt-8 rounded-xl font-semibold 
+                    {/* Continue Button */}
+                    <button
+                        onClick={handleContinue}
+                        disabled={!selectedRole}
+                        className={`px-8 py-3.5 mt-8 rounded-xl font-semibold 
                        flex items-center gap-2 transition-all duration-300 shadow-sm
                        ${selectedRole
-                            ? "bg-linear-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white hover:shadow-md active:scale-[0.99]"
-                            : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                        }`}
-                >
-                    Continue <ArrowRight className="w-5 h-5" />
-                </button>
-
-                {/* Login Link */}
-                <p className="mt-6 text-sm text-gray-600">
-                    Already have an account?{" "}
-                    <button
-                        onClick={handleLogin}
-                        className="text-pink-500 hover:text-pink-600 font-semibold transition-colors"
+                                ? "bg-linear-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white hover:shadow-md active:scale-[0.99]"
+                                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            }`}
                     >
-                        Log in
+                        Continue <ArrowRight className="w-5 h-5" />
                     </button>
-                </p>
 
-                {/* Footer */}
-                <p className="text-center text-xs text-gray-400 mt-8">
-                    By continuing, you agree to our Terms & Privacy Policy
-                </p>
+                    {/* Login Link */}
+                    <p className="mt-6 text-sm text-gray-600">
+                        Already have an account?{" "}
+                        <button
+                            onClick={handleLogin}
+                            className="text-pink-500 hover:text-pink-600 font-semibold transition-colors"
+                        >
+                            Log in
+                        </button>
+                    </p>
+
+                    {/* Footer */}
+                    <p className="text-center text-xs text-gray-400 mt-8">
+                        By continuing, you agree to our Terms & Privacy Policy
+                    </p>
+                </div>
             </div>
         </div>
     );

@@ -1,8 +1,8 @@
 "use client"
 
 import { ArrowRight, Menu, X } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 type NavLinkType = {
@@ -21,10 +21,10 @@ type AuthButtonProps = {
     label: string
     path: string
     mobile?: boolean
+    onClick?: () => void
 }
 
 const Header: React.FC = () => {
-    const router = useRouter()
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
 
     const navLinks: NavLinkType[] = [
@@ -33,17 +33,12 @@ const Header: React.FC = () => {
         { href: "/blog", label: "Blog" },
     ]
 
-    const handleNavigation = (path: string) => {
-        router.push(path)
-        setMenuOpen(false)
-    }
-
     const NavLink: React.FC<NavLinkProps> = ({ href, label, mobile = false }) => (
         <Link
             href={href}
             onClick={() => mobile && setMenuOpen(false)}
             className={`${mobile ? "text-gray-800 text-base py-2" : "text-gray-700 text-sm"
-                } hover:text-pink-900 transition-colors font-medium`}
+                } hover:text-pink-900 transition-colors text-[15px] font-medium`}
         >
             {label}
         </Link>
@@ -54,21 +49,23 @@ const Header: React.FC = () => {
         label,
         path,
         mobile = false,
+        onClick,
     }) => (
-        <button
-            onClick={() => handleNavigation(path)}
+        <Link
+            href={path}
+            onClick={onClick}
             className={`
-        ${variant === "primary"
+                ${variant === "primary"
                     ? "bg-pink-900 text-white hover:bg-pink-800"
                     : "bg-white text-gray-800 border border-gray-300 hover:bg-gray-50"
                 }
-        ${mobile ? "w-full py-3" : "px-5 py-2.5"}
-        rounded-lg transition-all font-medium flex items-center justify-center gap-2 text-sm
-      `}
+                ${mobile ? "w-full py-3" : "px-5 py-2.5"}
+                rounded-lg transition-all font-medium flex items-center justify-center gap-2 text-sm
+            `}
         >
             {label}
             {variant === "primary" && <ArrowRight size={16} />}
-        </button>
+        </Link>
     )
 
     return (
@@ -81,7 +78,14 @@ const Header: React.FC = () => {
                             href="/"
                             className="hover:opacity-80 transition-opacity shrink-0"
                         >
-                            <img src="/logo.png" alt="Logo" className="h-8 sm:h-16 -my-3  w-auto" />
+                            <Image
+                                src="/logo1.png"
+                                alt="Logo"
+                                width={160}
+                                height={64}
+                                className="h-12 sm:h-16 -my-3 w-auto"
+                                priority
+                            />
                         </Link>
 
                         {/* Desktop Nav */}
@@ -92,7 +96,7 @@ const Header: React.FC = () => {
                         </nav>
 
                         {/* Desktop Auth Buttons */}
-                        <div className="hidden lg:flex gap-3 items-center ">
+                        <div className="hidden lg:flex gap-3 items-center">
                             <AuthButton variant="secondary" label="Log In" path="/login" />
                             <AuthButton variant="primary" label="Join For Free" path="/register" />
                         </div>
@@ -102,6 +106,7 @@ const Header: React.FC = () => {
                             className="lg:hidden p-2 text-gray-700 hover:text-pink-900 transition-colors"
                             onClick={() => setMenuOpen(!menuOpen)}
                             aria-label="Toggle menu"
+                            aria-expanded={menuOpen}
                         >
                             {menuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -112,21 +117,24 @@ const Header: React.FC = () => {
             {/* Mobile Menu Overlay */}
             {menuOpen && (
                 <div
-                    className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40 animate-fadeIn"
+                    className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity duration-300"
                     onClick={() => setMenuOpen(false)}
+                    aria-hidden="true"
                 />
             )}
 
             {/* Mobile Menu */}
             <div
                 className={`
-        lg:hidden fixed top-20 left-4 right-4 z-40 bg-white rounded-2xl shadow-2xl 
-        transition-all duration-300 ease-out
-        ${menuOpen
+                    lg:hidden fixed top-20 left-4 right-4 z-40 bg-white rounded-2xl shadow-2xl 
+                    transition-all duration-300 ease-out
+                    ${menuOpen
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 -translate-y-4 pointer-events-none"
                     }
-      `}
+                `}
+                role="navigation"
+                aria-label="Mobile navigation"
             >
                 <div className="p-6">
                     <nav className="flex flex-col gap-1 mb-6">
@@ -135,9 +143,21 @@ const Header: React.FC = () => {
                         ))}
                     </nav>
 
-                    <div className="flex flex-col gap-3 pt-4 border-t border-gray-100 cursor-pointer">
-                        <AuthButton variant="secondary" label="Log In" path="/login" mobile />
-                        <AuthButton variant="primary" label="Join For Free" path="/register" mobile />
+                    <div className="flex flex-col gap-3 pt-4 border-t border-gray-100">
+                        <AuthButton
+                            variant="secondary"
+                            label="Log In"
+                            path="/login"
+                            mobile
+                            onClick={() => setMenuOpen(false)}
+                        />
+                        <AuthButton
+                            variant="primary"
+                            label="Join For Free"
+                            path="/register"
+                            mobile
+                            onClick={() => setMenuOpen(false)}
+                        />
                     </div>
                 </div>
             </div>
