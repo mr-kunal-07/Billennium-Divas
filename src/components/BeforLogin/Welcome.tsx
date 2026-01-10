@@ -9,7 +9,7 @@ const Welcome = () => {
     const router = useRouter()
 
     return (
-        <div className="relative overflow-auto bg-center bg-repeat min-h-screen " style={{ backgroundImage: "url(https://www.openvc.app/images/hero_bg.png)" }}>
+        <div className="relative overflow-auto bg-center bg-repeat h- " style={{ backgroundImage: "url(https://www.openvc.app/images/hero_bg.png)" }}>
             <Header />
 
             {/* Main content */}

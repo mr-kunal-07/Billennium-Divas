@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className} w-full min-h-screen bg-linear-to-br from-pink-50 via-white to-pink-50`}
+        className={`${poppins.className}  min-h-screen bg-linear-to-br from-pink-50 via-white to-pink-50`}
       >
         <Provider>{children}</Provider>
       </body>
