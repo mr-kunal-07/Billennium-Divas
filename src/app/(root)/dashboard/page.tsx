@@ -53,6 +53,8 @@
 "use client"
 import React, { useState } from 'react';
 import { Calculator, PieChart, TrendingUp, Users, ChevronRight, Sparkles, BarChart3, Target, Clock, Zap, CheckCircle, ArrowRight, Menu } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 
 // ==================== TYPES ====================
 type ToolType = 'dashboard' | 'valuation' | 'captable';
@@ -75,7 +77,7 @@ interface Tool {
 // ==================== TOOLS CONFIGURATION ====================
 const tools: Tool[] = [
     {
-        id: 'valuation',
+        id: 'valuation-calculator',
         name: 'Startup Valuation Calculator',
         shortName: 'Valuation',
         description: 'Calculate your startup value using 10 industry-standard methods including VC, DCF, and Scorecard approaches.',
@@ -95,7 +97,7 @@ const tools: Tool[] = [
         ]
     },
     {
-        id: 'captable',
+        id: 'captable-calculator',
         name: 'Cap Table Calculator',
         shortName: 'Cap Table',
         description: 'Manage equity ownership, simulate funding rounds, track dilution, and calculate exit scenarios with precision.',
@@ -196,6 +198,8 @@ const tools: Tool[] = [
 const ToolCard = ({ tool, onClick }: { tool: Tool; onClick: () => void }) => {
     const Icon = tool.icon;
 
+    const router = useRouter();
+
     return (
         <div
             className={`group relative bg-white rounded-xl transition-all duration-300 ${tool.comingSoon
@@ -269,7 +273,7 @@ const ToolCard = ({ tool, onClick }: { tool: Tool; onClick: () => void }) => {
 
                 {/* Action Button */}
                 <button
-                    onClick={!tool.comingSoon ? onClick : undefined}
+                    onClick={() => router.push(`/resources/${tool.id}`)}
                     disabled={tool.comingSoon}
                     className={`w-full py-3 sm:py-3.5 px-4 rounded-lg font-bold transition-all flex items-center justify-center gap-2 ${tool.comingSoon
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -333,67 +337,6 @@ export default function StartupToolsDashboard() {
         setSelectedTool('dashboard');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
-    // Render individual tool screens
-    if (selectedTool === 'valuation') {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-                <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-                        <button
-                            onClick={handleBackToDashboard}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-semibold text-gray-700 text-sm"
-                        >
-                            <ChevronRight size={18} className="rotate-180" />
-                            Back to Dashboard
-                        </button>
-                    </div>
-                </div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-                    <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-12 border border-gray-200">
-                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-400 text-center mb-6">
-                            🚀 Startup Valuation Calculator
-                        </h1>
-                        <div className="text-center text-gray-600 py-12 sm:py-20">
-                            <Calculator size={48} className="sm:w-16 sm:h-16 mx-auto mb-4 text-pink-500" />
-                            <p className="text-base sm:text-lg font-semibold mb-2">Valuation Calculator Component</p>
-                            <p className="text-sm text-gray-500">Replace this section with your Valuation Calculator component</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (selectedTool === 'captable') {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-                <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-                        <button
-                            onClick={handleBackToDashboard}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all font-semibold text-gray-700 text-sm"
-                        >
-                            <ChevronRight size={18} className="rotate-180" />
-                            Back to Dashboard
-                        </button>
-                    </div>
-                </div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-                    <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-12 border border-gray-200">
-                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-violet-500 to-purple-400 text-center mb-6">
-                            📊 Cap Table Calculator
-                        </h1>
-                        <div className="text-center text-gray-600 py-12 sm:py-20">
-                            <PieChart size={48} className="sm:w-16 sm:h-16 mx-auto mb-4 text-purple-500" />
-                            <p className="text-base sm:text-lg font-semibold mb-2">Cap Table Calculator Component</p>
-                            <p className="text-sm text-gray-500">Replace this section with your Cap Table Calculator component</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     // Main Dashboard View
     return (
@@ -485,39 +428,6 @@ export default function StartupToolsDashboard() {
                                 onClick={() => { }}
                             />
                         ))}
-                    </div>
-                </div>
-
-                {/* Features Section */}
-                <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl shadow-xl p-8 sm:p-12 lg:p-16 border-2 border-gray-100 mb-12 sm:mb-16">
-                    <div className="text-center mb-8 sm:mb-12">
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-                            Why Founders Choose Us
-                        </h2>
-                        <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto px-4">
-                            Built by founders who understand your challenges. Every tool is designed for real-world startup scenarios.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-                        <FeatureCard
-                            icon={Zap}
-                            title="Lightning Fast"
-                            description="Instant calculations with real-time results. No waiting, no delays, just fast insights when you need them."
-                            gradient="from-pink-500 to-rose-500"
-                        />
-                        <FeatureCard
-                            icon={Target}
-                            title="Industry Standard"
-                            description="Uses proven formulas and methodologies trusted by top VCs, investors, and financial advisors worldwide."
-                            gradient="from-purple-500 to-violet-500"
-                        />
-                        <FeatureCard
-                            icon={Users}
-                            title="Founder Friendly"
-                            description="Intuitive interfaces designed for founders, not accountants. Get insights without needing a finance degree."
-                            gradient="from-blue-500 to-cyan-500"
-                        />
                     </div>
                 </div>
 
