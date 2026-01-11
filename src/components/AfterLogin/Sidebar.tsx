@@ -92,6 +92,12 @@ export default function Sidebar() {
                     icon: <BarChart3 size={18} />,
                     href: "/resources/captable-calculator",
                 },
+                {
+                    id: "funding",
+                    label: "Funding Matrix Calculator",
+                    icon: <BarChart3 size={18} />,
+                    href: "/resources/funding-matrix-calculator",
+                },
             ],
         },
         {
