@@ -21,7 +21,7 @@ const views = [
     { id: 'dilution', name: 'Dilution Analysis', icon: GitBranch, desc: 'Track ownership changes' },
     { id: 'exit', name: 'Exit Waterfall', icon: DollarSign, desc: 'Calculate exit proceeds' },
     { id: 'options', name: 'Option Pool', icon: Users, desc: 'Manage employee equity' },
-    { id: 'safes', name: 'SAFEs/Convertibles', icon: Calculator, desc: 'Convert to equity' }
+    { id: 'safes', name: 'SAFEs / Convertibles', icon: Calculator, desc: 'Convert to equity' }
 ];
 
 // Reusable Input Components
@@ -1042,9 +1042,9 @@ export default function CapTableCalculator() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
             <div className="">
-                <div className="bg-white rounded-2xl shadow-2xl p-6 lg:p-8 border border-gray-200">
+                <div className="">
 
                     {/* Header */}
                     <div className="mb-8">
@@ -1073,7 +1073,7 @@ export default function CapTableCalculator() {
                         <select
                             value={currency}
                             onChange={(e) => setCurrency(e.target.value as Currency)}
-                            className="w-full md:w-64 px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 bg-white font-medium"
+                            className="w-full md:w-64 px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-pink-500 bg-white font-medium"
                         >
                             {Object.entries(currencyConfig).map(([code, config]) => (
                                 <option key={code} value={code}>{config.symbol} {code} - {config.name}</option>
@@ -1092,7 +1092,7 @@ export default function CapTableCalculator() {
                                     <button
                                         key={view.id}
                                         onClick={() => { setActiveView(view.id as ViewType); setError(''); setFieldErrors({}); }}
-                                        className={`p-4 rounded-xl border-2 transition-all text-left hover:scale-105 ${isActive ? 'border-pink-500 bg-gradient-to-br from-pink-50 to-rose-50 shadow-lg' :
+                                        className={`p-4 rounded-md border-2 transition-all text-left hover:scale-105 ${isActive ? 'border-pink-500 bg-gradient-to-br from-pink-50 to-rose-50 shadow-lg' :
                                             'border-gray-200 hover:border-pink-300 bg-white'
                                             }`}
                                     >
@@ -1116,13 +1116,13 @@ export default function CapTableCalculator() {
                     <div className="flex flex-col sm:flex-row gap-3 mb-6">
                         <button
                             onClick={exportCapTable}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 font-bold shadow-lg transition-all"
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-md hover:from-pink-600 hover:to-rose-600 font-bold shadow-lg transition-all"
                         >
                             <Download size={20} /> Export Cap Table (CSV)
                         </button>
                         <button
                             onClick={resetAll}
-                            className="flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-bold shadow-md transition-all"
+                            className="flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-bold shadow-md transition-all"
                         >
                             <RotateCcw size={20} /> Reset All
                         </button>

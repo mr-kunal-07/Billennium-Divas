@@ -3,13 +3,12 @@ import React, { useState, useMemo } from 'react';
 import { TrendingUp, DollarSign, Users, Target, Calculator, AlertCircle, Info, Download, PieChart, Clock, Zap, Award, TrendingDown } from 'lucide-react';
 
 export default function FundingMatrixCalculator() {
-    const [currentStage, setCurrentStage] = useState('seed');
+    const [currentStage, setCurrentStage] = useState<keyof typeof fundingStages>('seed');
     const [currentValuation, setCurrentValuation] = useState('5000000');
     const [fundingNeeded, setFundingNeeded] = useState('1000000');
     const [burnRate, setBurnRate] = useState('100000');
     const [monthlyRevenue, setMonthlyRevenue] = useState('50000');
     const [founderEquity, setFounderEquity] = useState('80');
-    const [showAdvanced, setShowAdvanced] = useState(false);
 
     // 2025 Industry Data - Updated from latest sources
     const fundingStages = {
@@ -147,14 +146,14 @@ export default function FundingMatrixCalculator() {
         };
     }, [fundingNeeded, currentValuation, burnRate, monthlyRevenue, founderEquity, currentStage]);
 
-    const formatCurrency = (num) => {
+    const formatCurrency = (num: number) => {
         if (num >= 1000000000) return `$${(num / 1000000000).toFixed(2)}B`;
         if (num >= 1000000) return `$${(num / 1000000).toFixed(1)}M`;
         if (num >= 1000) return `$${(num / 1000).toFixed(0)}K`;
         return `$${num.toFixed(0)}`;
     };
 
-    const formatNumber = (num) => {
+    const formatNumber = (num: number) => {
         if (num === Infinity) return '∞';
         return num.toFixed(1);
     };
@@ -220,18 +219,6 @@ export default function FundingMatrixCalculator() {
 
     const recommendations = generateRecommendations();
 
-    const getScoreColor = (score) => {
-        if (score >= 80) return 'text-green-600';
-        if (score >= 60) return 'text-yellow-600';
-        return 'text-red-600';
-    };
-
-    const getScoreBg = (score) => {
-        if (score >= 80) return 'bg-green-100 border-green-300';
-        if (score >= 60) return 'bg-yellow-100 border-yellow-300';
-        return 'bg-red-100 border-red-300';
-    };
-
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
             <div className="">
@@ -255,7 +242,7 @@ export default function FundingMatrixCalculator() {
                         {Object.entries(fundingStages).map(([key, stage]) => (
                             <button
                                 key={key}
-                                onClick={() => setCurrentStage(key)}
+                                onClick={() => setCurrentStage(key as keyof typeof fundingStages)}
                                 className={`p-4 rounded-lg border-2 transition-all ${currentStage === key
                                     ? 'border-pink-500 bg-pink-50 shadow-md transform scale-105'
                                     : 'border-gray-200 hover:border-pink-300 hover:bg-gray-50'
@@ -551,7 +538,7 @@ export default function FundingMatrixCalculator() {
                         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 border border-gray-200">
                             <p className="text-sm text-gray-600 mb-2 font-medium">Typical Investors</p>
                             <div className="space-y-1">
-                                {stageData.investors.map((investor, idx) => (
+                                {stageData.investors.map((investor: string, idx: number) => (
                                     <p key={idx} className="text-xs text-gray-800 flex items-center gap-1">
                                         <span className="w-1.5 h-1.5 rounded-full bg-pink-500"></span>
                                         {investor}
@@ -583,7 +570,7 @@ export default function FundingMatrixCalculator() {
                     <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-lg p-4 border border-pink-200">
                         <p className="text-sm font-semibold text-gray-900 mb-3">Key Metrics for {stageData.name}</p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            {stageData.keyMetrics.map((metric, idx) => (
+                            {stageData.keyMetrics.map((metric: string, idx: number) => (
                                 <div key={idx} className="flex items-center gap-2 text-sm">
                                     <div className="w-2 h-2 rounded-full bg-pink-500 flex-shrink-0"></div>
                                     <span className="text-gray-700">{metric}</span>
@@ -674,7 +661,7 @@ export default function FundingMatrixCalculator() {
                                 <p className="text-xs text-gray-600 mb-1 capitalize">
                                     {type.replace(/([A-Z])/g, ' $1').trim()}
                                 </p>
-                                <p className="text-lg font-bold text-indigo-900">{size}</p>
+                                <p className="text-lg font-bold text-indigo-900">{String(size)}</p>
                             </div>
                         ))}
                     </div>

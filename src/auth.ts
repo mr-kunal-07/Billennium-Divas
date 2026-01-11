@@ -14,7 +14,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 userType: { label: "User Type", type: "text" } // Optional: to specify login type
             },
             async authorize(credentials) {
-                await connectDB()
+
+                if (!credentials?.email || !credentials?.password) {
+                    throw new Error("Email and password are required")
+                }
+
+                try {
+                    await connectDB()
+                } catch (error) {
+                    throw new Error("Database connection failed")
+                }
 
                 const email = credentials?.email
                 const password = credentials?.password as string

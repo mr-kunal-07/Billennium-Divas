@@ -14,6 +14,10 @@ type FormData = {
     linkedin: string;
     password: string;
     confirmPassword: string;
+
+    age: number;
+    gender: "male" | "female" | "other" | "prefer_not_to_say";
+
     companyName: string;
     companyWebsite: string;
     companyLinkedin: string;
@@ -29,6 +33,8 @@ type FormData = {
     pitchDeck: string;
     pitchVideo: string;
 };
+
+
 
 // Constants
 const COUNTRIES = [
@@ -46,6 +52,14 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 const STAGES = ["Idea", "MVP", "Early Revenue", "Growth", "Scale"];
 const STEPS = ["YOUR PROFILE", "YOUR COMPANY", "FINISH"];
 
+const GENDERS = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+    { value: "prefer_not_to_say", label: "Prefer not to say" },
+];
+
+
 // Reusable Components
 const Input = ({ label, required = false, error, ...props }: any) => (
     <div>
@@ -53,7 +67,7 @@ const Input = ({ label, required = false, error, ...props }: any) => (
             {label} {required && <span className="text-red-500">*</span>}
         </label>
         <input
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all ${error ? 'border-red-300' : 'border-gray-300'}`}
+            className={`w-full px-4 py-3 border rounded-md focus:ring-1 focus:outline-none focus:border-pink-500 focus:ring-pink-500  transition-all ${error ? 'border-red-300' : 'border-gray-300'}`}
             {...props}
         />
         {error && <p className="mt-1 text-xs text-red-600">{error.message}</p>}
@@ -66,7 +80,7 @@ const Select = ({ label, required = false, error, options, children, ...props }:
             {label} {required && <span className="text-red-500">*</span>}
         </label>
         <select
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 bg-white ${error ? 'border-red-300' : 'border-gray-300'}`}
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-1 focus:outline-none focus:border-pink-500 focus:ring-pink-500 bg-white ${error ? 'border-red-300' : 'border-gray-300'}`}
             {...props}
         >
             <option value="">Select {label.toLowerCase()}</option>
@@ -122,7 +136,7 @@ export default function FounderSignupForm() {
             companyLinkedin: "", isIncorporated: false, incorporationMonth: "",
             incorporationYear: "", incorporationCountry: "", companyStage: "",
             roundSize: "", keywords: [], agreeToTerms: false, meetingLink: "",
-            pitchDeck: "", pitchVideo: ""
+            pitchDeck: "", pitchVideo: "", gender: "prefer_not_to_say", age: 0
         },
         mode: "onChange"
     });
@@ -138,7 +152,7 @@ export default function FounderSignupForm() {
 
     const handleStep1Next = async () => {
         setMessage(null);
-        const isValid = await trigger(["firstName", "lastName", "email", "password", "confirmPassword"]);
+        const isValid = await trigger(["firstName", "lastName", "email", "password", "confirmPassword", "age", "gender"]);
         if (isValid) setStep(2);
         else showError("Please fix the errors below");
     };
@@ -159,6 +173,8 @@ export default function FounderSignupForm() {
                 email: data.email.trim(),
                 phone: data.phone?.trim() || undefined,
                 linkedin: data.linkedin?.trim() || undefined,
+                age: data.age,
+                gender: data.gender,
                 password: data.password,
                 companyName: data.companyName.trim(),
                 companyWebsite: data.companyWebsite?.trim() || undefined,
@@ -268,50 +284,101 @@ export default function FounderSignupForm() {
                             </div>
 
                             <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-6">
-                                <Input
-                                    label="First name"
-                                    required
-                                    {...register("firstName", {
-                                        required: "First name is required",
-                                        minLength: { value: 2, message: "Minimum 2 characters" }
-                                    })}
-                                    error={errors.firstName}
-                                    disabled={loading}
-                                />
+                                <div className="flex items-center gap-10" >
+                                    <Input
+                                        label="First name"
+                                        required
+                                        {...register("firstName", {
+                                            required: "First name is required",
+                                            minLength: { value: 2, message: "Minimum 2 characters" }
+                                        })}
+                                        error={errors.firstName}
+                                        disabled={loading}
+                                    />
 
-                                <Input
-                                    label="Last name"
-                                    required
-                                    {...register("lastName", {
-                                        required: "Last name is required",
-                                        minLength: { value: 2, message: "Minimum 2 characters" }
-                                    })}
-                                    error={errors.lastName}
-                                    disabled={loading}
-                                />
+                                    <Input
+                                        label="Last name"
+                                        required
+                                        {...register("lastName", {
+                                            required: "Last name is required",
+                                            minLength: { value: 2, message: "Minimum 2 characters" }
+                                        })}
+                                        error={errors.lastName}
+                                        disabled={loading}
+                                    />
+                                    <Controller
+                                        name="gender"
+                                        control={control}
+                                        rules={{ required: "Gender is required" }}
+                                        render={({ field }) => (
+                                            <Select
+                                                label="Gender"
+                                                required
+                                                options={GENDERS}
+                                                error={errors.gender}
+                                                {...field}
+                                                disabled={loading}
+                                            />
+                                        )}
+                                    />
 
-                                <Input
-                                    label="Email address"
-                                    type="email"
-                                    required
-                                    placeholder="your@email.com"
-                                    autoComplete="email"
-                                    {...register("email", {
-                                        required: "Email is required",
-                                        pattern: {
-                                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                            message: "Invalid email address"
-                                        }
-                                    })}
-                                    error={errors.email}
-                                    disabled={loading}
-                                />
+
+                                </div>
+
+                                <div className="flex items-center gap-10" >
+                                    <Input
+                                        label="Email address"
+                                        type="email"
+                                        required
+                                        placeholder="your@email.com"
+                                        autoComplete="email"
+                                        {...register("email", {
+                                            required: "Email is required",
+                                            pattern: {
+                                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                                message: "Invalid email address"
+                                            }
+                                        })}
+                                        error={errors.email}
+                                        disabled={loading}
+                                    />
+
+                                    <Input
+                                        label="Phone number"
+                                        type="tel"
+                                        required
+                                        {...register("phone")}
+                                        disabled={loading}
+                                    />
+
+                                    <Input
+                                        label="Age"
+                                        type="number"
+                                        required
+                                        min={18}
+                                        max={100}
+                                        {...register("age", {
+                                            required: "Age is required",
+                                            valueAsNumber: true,
+                                            min: { value: 18, message: "Minimum age is 18" },
+                                            max: { value: 100, message: "Maximum age is 100" },
+                                        })}
+                                        error={errors.age}
+                                        disabled={loading}
+                                    />
+
+
+
+
+                                </div>
 
                                 <Input
                                     label="LinkedIn profile"
                                     type="url"
+                                    required
                                     placeholder="https://linkedin.com/in/..."
                                     {...register("linkedin", {
+                                        required: "LinkedIn profile is required",
                                         pattern: {
                                             value: /^https?:\/\/.+/,
                                             message: "Invalid URL format"
@@ -321,12 +388,7 @@ export default function FounderSignupForm() {
                                     disabled={loading}
                                 />
 
-                                <Input
-                                    label="Phone number"
-                                    type="tel"
-                                    {...register("phone")}
-                                    disabled={loading}
-                                />
+
 
                                 <div>
                                     <Input
@@ -531,7 +593,7 @@ export default function FounderSignupForm() {
                                                     addKeyword();
                                                 }
                                             }}
-                                            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                                            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-pink-500 focus:border-transparent"
                                             placeholder="Type and press Enter"
                                             disabled={loading || keywords.length >= 6}
                                         />
@@ -547,7 +609,7 @@ export default function FounderSignupForm() {
                                     {keywords.length > 0 && (
                                         <div className="flex flex-wrap gap-2 mb-2">
                                             {keywords.map((keyword: string, idx: number) => (
-                                                <span key={idx} className="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">
+                                                <span key={idx} className="inline-flex items-center gap-2 bg-pink-100 text-pink-700 px-3 py-1 rounded-md text-sm">
                                                     {keyword}
                                                     <button
                                                         type="button"
