@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
     const publicRoutes = [
@@ -12,14 +12,13 @@ export async function middleware(req: NextRequest) {
         "/founder-signup",
     ];
 
-    // Allow public routes
     if (publicRoutes.some(route => pathname.startsWith(route))) {
         return NextResponse.next();
     }
 
     const token = await getToken({
         req,
-        secret: process.env.NEXTAUTH_SECRET, // ✅ FIXED
+        secret: process.env.NEXTAUTH_SECRET,
     });
 
     if (!token) {
