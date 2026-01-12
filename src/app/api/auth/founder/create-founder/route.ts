@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
             companyStage,
             keywords,
             pitchDeck,
+            onePager,
             pitchVideo,
         } = body;
 
@@ -172,6 +173,7 @@ export async function POST(req: NextRequest) {
             roundSize: roundSize ? Number(roundSize) : undefined,
             keywords: keywords.map((k: string) => k.trim().toLowerCase()),
             pitchDeck: pitchDeck?.trim() || undefined,
+            onePager: onePager?.trim() || undefined,
             pitchVideo: pitchVideo?.trim() || undefined,
             role: 'founder',
         });

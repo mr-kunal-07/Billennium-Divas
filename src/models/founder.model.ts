@@ -15,7 +15,7 @@ export interface IFounder extends Document {
     linkedin?: string;
 
     emailVerified: boolean;
-    role: "founder"
+
     password: string;
 
     companyName: string;
@@ -31,8 +31,10 @@ export interface IFounder extends Document {
     roundSize?: number;
 
     keywords: string[];
+    role: "founder" | "investor";
 
     pitchDeck?: string;
+    onePager?: string;
     pitchVideo?: string;
 
     accountStatus: "pending" | "approved";
@@ -164,6 +166,11 @@ const FounderSchema = new Schema<IFounder>(
             trim: true,
             required: [true, "Pitch deck is required"],
         },
+        onePager: {
+            type: String,
+            trim: true,
+            required: [true, "One pager is required"],
+        },
         pitchVideo: {
             type: String,
             trim: true,
@@ -175,6 +182,7 @@ const FounderSchema = new Schema<IFounder>(
             enum: ["pending", "approved"],
             default: "pending",
         },
+        role: "founder"
     },
     { timestamps: true }
 );
