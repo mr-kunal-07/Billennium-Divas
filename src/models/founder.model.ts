@@ -189,20 +189,12 @@ FounderSchema.index({ createdAt: -1 });
 
 /* ---------------- Pre-save Hook for Password Hashing ---------------- */
 
-FounderSchema.pre("save", async function (next) {
+FounderSchema.pre("save", async function () {
     // Only hash the password if it has been modified (or is new)
-    if (!this.isModified("password")) {
-        return next();
-    }
+    if (!this.isModified("password")) return;
 
-    try {
-        // Generate salt and hash password
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error: any) {
-        next(error);
-    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
 /* ---------------- Instance Methods ---------------- */
@@ -210,11 +202,10 @@ FounderSchema.pre("save", async function (next) {
 FounderSchema.methods.comparePassword = async function (
     candidatePassword: string
 ): Promise<boolean> {
-    try {
-        return await bcrypt.compare(candidatePassword, this.password);
-    } catch (error) {
-        throw new Error("Password comparison failed");
+    if (!this.password) {
+        throw new Error("Password not loaded. Use .select('+password')");
     }
+    return bcrypt.compare(candidatePassword, this.password);
 };
 
 /* ---------------- Model ---------------- */
