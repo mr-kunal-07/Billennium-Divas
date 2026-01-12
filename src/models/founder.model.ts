@@ -182,7 +182,12 @@ const FounderSchema = new Schema<IFounder>(
             enum: ["pending", "approved"],
             default: "pending",
         },
-        role: "founder"
+        role: {
+            type: String,
+            enum: ["founder"],
+            default: "founder",
+            required: true,
+        },
     },
     { timestamps: true }
 );
