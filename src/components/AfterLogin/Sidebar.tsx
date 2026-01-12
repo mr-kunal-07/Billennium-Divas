@@ -111,7 +111,7 @@ export default function Sidebar() {
                 },
                 {
                     id: "review",
-                    label: "Write a Review",
+                    label: "Give Feedback",
                     icon: <Star size={18} />,
                     href: "/review",
                 },
@@ -151,7 +151,7 @@ export default function Sidebar() {
             >
                 <div className="flex h-full flex-col">
                     {/* Logo */}
-                    <div className="flex items-center justify-between px-6 py-2.5 border-b border-gray-200">
+                    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
                         {!isCollapsed ? (
                             <div className="text-2xl font-semibold">
                                 Billennium<span className="text-pink-500">Divas</span>
