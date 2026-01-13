@@ -568,13 +568,16 @@ export default function StartupValuationCalculator() {
                 <div className="">
 
                     {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="text-3xl lg:text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-400 text-center mb-1">
-                            Startup Valuation Calculator
-                        </h1>
-                        <p className="text-sm md:text-base text-gray-600 text-center max-w-2xl mx-auto">
-                            Professional valuation tools used by VCs, investors, and founders worldwide.
-                        </p>
+
+                    <div className="text-start mb-8">
+                        <div className="flex items-center justify-start gap-3 mb-4">
+                            <div>
+                                <h1 className="text-5xl font-semibold ">Startup Valuation <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-600 to-pink-900">Calculator</span></h1>
+                                <p className="text-muted-foreground">
+                                    Professional valuation tools used by VCs, investors, and founders worldwide
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Error */}

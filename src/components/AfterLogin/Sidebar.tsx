@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { TbInvoice } from "react-icons/tb";
+import { CiCalculator2 } from "react-icons/ci";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -14,6 +16,7 @@ import {
     ChevronLeft,
     ChevronRight,
     BarChart3,
+    Form,
 } from "lucide-react";
 import { useSidebar } from "@/context/SidebarContext";
 
@@ -95,9 +98,15 @@ export default function Sidebar() {
                 {
                     id: "funding",
                     label: "Funding Matrix Calculator",
-                    icon: <BarChart3 size={18} />,
+                    icon: <CiCalculator2 size={18} />,
                     href: "/resources/funding-matrix-calculator",
                 },
+                {
+                    id: 'invoice',
+                    label: "Make Your Invoice",
+                    icon: <TbInvoice size={18} />,
+                    href: "/resources/invoice",
+                }
             ],
         },
         {

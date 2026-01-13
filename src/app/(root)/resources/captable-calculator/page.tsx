@@ -1043,17 +1043,19 @@ export default function CapTableCalculator() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
-            <div className="">
+            <div className="max-w-7xl mx-auto">
                 <div className="">
 
                     {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="text-3xl lg:text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-400 text-center mb-2">
-                            Cap Table Calculator
-                        </h1>
-                        <p className="text-sm md:text-base text-gray-600 text-center max-w-2xl mx-auto">
-                            Professional cap table management for startups. Track ownership, model funding rounds, and analyze exit scenarios.
-                        </p>
+                    <div className="text-start mb-8">
+                        <div className="flex items-center justify-start gap-3 mb-4">
+                            <div>
+                                <h1 className="text-5xl font-semibold ">CapTable <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-600 to-pink-900">Calculator</span></h1>
+                                <p className="text-muted-foreground">
+                                    Professional cap table management for startups. Track ownership, model funding rounds, and analyze exit scenarios.
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Error Display */}

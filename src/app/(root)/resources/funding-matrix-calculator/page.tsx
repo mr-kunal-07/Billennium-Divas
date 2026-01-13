@@ -221,15 +221,18 @@ export default function FundingMatrixCalculator() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
-            <div className="">
+            <div className="max-w-7xl mx-auto">
                 {/* Header */}
 
-                <div className="text-center mb-8">
-                    <div className="flex items-center justify-center gap-3 mb-4">
-                        <h1 className="text-3xl lg:text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-400 text-center ">Funding Matrix Calculator</h1>
+                <div className="text-start mb-8">
+                    <div className="flex items-center justify-start gap-3 mb-4">
+                        <div>
+                            <h1 className="text-5xl font-semibold ">Funding <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-600 to-pink-900">Matrix</span></h1>
+                            <p className="text-muted-foreground">
+                                Industry-ready fundraising planning with 2025 benchmarks
+                            </p>
+                        </div>
                     </div>
-                    <p className="text-gray-600 text-lg mb-1">Industry-ready fundraising planning with 2025 benchmarks</p>
-                    <p className="text-sm text-gray-500">Data from Carta, AngelList, YC, and 200+ VC firms</p>
                 </div>
 
                 {/* Stage Selection */}
