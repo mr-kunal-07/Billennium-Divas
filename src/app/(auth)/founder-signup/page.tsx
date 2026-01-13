@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, X, ChevronDown, Eye, EyeOff, Upload, FileText, Loader2, AlertCircle } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 // Constants
 const MIN_BIRTH_YEAR = 1924, MIN_AGE = 18, MIN_KEYWORDS = 3, MAX_KEYWORDS = 6;
@@ -29,7 +30,7 @@ const GENDERS = [
 const currentYear = new Date().getFullYear();
 const BIRTH_YEARS = Array.from({ length: currentYear - MIN_BIRTH_YEAR + 1 }, (_, i) => currentYear - MIN_AGE - i);
 
-// FIXED: Complete schema for ALL fields
+
 const completeSchema = z.object({
     // Step 1 fields
     firstName: z.string().min(2, "First name must be at least 2 characters").max(50),
@@ -307,12 +308,6 @@ export default function FounderSignupForm() {
     const onSubmit = async (data: FormData) => {
         setMessage(null);
 
-        // Debug: Log all form data
-        console.log("Form data being submitted:", {
-            ...data,
-            password: "[REDACTED]"
-        });
-
         if (data.keywords.length < MIN_KEYWORDS) {
             return showError(`Add at least ${MIN_KEYWORDS} keywords`);
         }
@@ -357,8 +352,7 @@ export default function FounderSignupForm() {
                 pitchVideo: sanitizeInput(data.pitchVideo)
             };
 
-            console.log("Payload being sent:", { ...payload, password: "[REDACTED]" });
-
+            // Step 1: Create the account
             const res = await fetch("/api/auth/founder/create-founder", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "x-csrf-token": csrfToken },
@@ -368,13 +362,34 @@ export default function FounderSignupForm() {
 
             const result = await res.json();
             if (!res.ok) {
-                console.error("Server error:", result);
                 throw new Error(result.message || "Registration failed");
             }
 
-            setMessage({ type: "success", text: "Account created! Check email for verification." });
+            // Step 2: Show success message and move to step 3
+            setMessage({ type: "success", text: "Account created! Signing you in..." });
             setStep(3);
-            setTimeout(() => window.location.href = "/dashboard", 2000);
+
+            // Step 3: Auto sign-in with Auth.js
+            const signInResult = await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                redirect: false,
+            });
+
+            // Step 4: Handle sign-in result
+            if (signInResult?.error) {
+                console.error("Auto sign-in failed:", signInResult.error);
+                // Redirect to login page if auto sign-in fails
+                setTimeout(() => {
+                    window.location.href = "/login?message=Account created! Please sign in.";
+                }, 1500);
+            } else if (signInResult?.ok) {
+                // Successfully signed in, redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = "/dashboard";
+                }, 1500);
+            }
+
         } catch (err: any) {
             showError(err.message || "Network error");
         } finally {
