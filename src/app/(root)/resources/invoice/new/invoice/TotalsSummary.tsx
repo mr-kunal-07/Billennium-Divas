@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TaxType } from "@/types/invoice";
+import { TaxType } from "@/hooks/invoice";
 import { formatCurrency } from "@/lib/currency";
 
 interface TotalsSummaryProps {
