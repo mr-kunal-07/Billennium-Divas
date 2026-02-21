@@ -25,7 +25,7 @@ interface InvoicePreviewProps {
 }
 
 export default function InvoicePreview({ data, totals, amountInWords, onBack }: InvoicePreviewProps) {
-  
+
   const [isSending, setIsSending] = useState(false);
   const [sendDialogOpen, setSendDialogOpen] = useState(false);
 
@@ -46,11 +46,9 @@ export default function InvoicePreview({ data, totals, amountInWords, onBack }: 
   const handleSendClick = () => {
     const clientEmail = data.buyer.email;
     if (!clientEmail) {
-      toast({ 
-        title: "No email address", 
+      toast("No email address", {
         description: "Please add buyer's email address before sending",
-        variant: "destructive" 
-      });
+      })
       return;
     }
     setSendDialogOpen(true);
@@ -63,9 +61,10 @@ export default function InvoicePreview({ data, totals, amountInWords, onBack }: 
     // Build mailto link
     const mailtoUrl = `mailto:${encodeURIComponent(clientEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     window.open(mailtoUrl, '_blank');
-    
-    toast({ title: "Email client opened", description: "Complete sending in your email app." });
-    return true;
+
+    toast("Email client opened", {
+      description: "Complete sending in your email app.",
+    });
   };
 
 
@@ -92,9 +91,9 @@ export default function InvoicePreview({ data, totals, amountInWords, onBack }: 
           <ArrowLeft className="w-4 h-4" />Back to Editor
         </Button>
         <div className="flex gap-3">
-          <Button 
-            variant="outline" 
-            onClick={handleSendClick} 
+          <Button
+            variant="outline"
+            onClick={handleSendClick}
             disabled={!hasClientEmail}
             className="gap-2"
           >
@@ -232,11 +231,11 @@ export default function InvoicePreview({ data, totals, amountInWords, onBack }: 
                     <td className="p-2 text-right border">{formatCurrency(item.taxableValue, data.currency)}</td>
                     {data.taxType === "cgst_sgst" ? (
                       <>
-                        <td className="p-2 text-center border text-xs">{item.cgstPercent}%<br/>{formatCurrency(item.cgstAmount, data.currency)}</td>
-                        <td className="p-2 text-center border text-xs">{item.sgstPercent}%<br/>{formatCurrency(item.sgstAmount, data.currency)}</td>
+                        <td className="p-2 text-center border text-xs">{item.cgstPercent}%<br />{formatCurrency(item.cgstAmount, data.currency)}</td>
+                        <td className="p-2 text-center border text-xs">{item.sgstPercent}%<br />{formatCurrency(item.sgstAmount, data.currency)}</td>
                       </>
                     ) : (
-                      <td className="p-2 text-center border text-xs">{item.igstPercent}%<br/>{formatCurrency(item.igstAmount, data.currency)}</td>
+                      <td className="p-2 text-center border text-xs">{item.igstPercent}%<br />{formatCurrency(item.igstAmount, data.currency)}</td>
                     )}
                     <td className="p-2 text-right border font-medium">{formatCurrency(item.totalAmount, data.currency)}</td>
                   </tr>
