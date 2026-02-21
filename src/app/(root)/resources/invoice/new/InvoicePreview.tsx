@@ -54,19 +54,27 @@ export default function InvoicePreview({ data, totals, amountInWords, onBack }: 
     setSendDialogOpen(true);
   };
 
-  const handleSend = async (subject: string, message: string): Promise<boolean> => {
-    const clientEmail = data.buyer.email;
-    if (!clientEmail) return false;
+  const handleSend = async (
+  subject: string,
+  message: string
+): Promise<boolean> => {
+  const clientEmail = data.buyer.email;
+  if (!clientEmail) return false;
 
-    // Build mailto link
-    const mailtoUrl = `mailto:${encodeURIComponent(clientEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-    window.open(mailtoUrl, '_blank');
+  const mailtoUrl = `mailto:${encodeURIComponent(
+    clientEmail
+  )}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+    message
+  )}`;
 
-    toast("Email client opened", {
-      description: "Complete sending in your email app.",
-    });
-  };
+  window.open(mailtoUrl, "_blank");
 
+  toast("Email client opened", {
+    description: "Complete sending in your email app.",
+  });
+
+  return true; // ✅ REQUIRED
+};
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
