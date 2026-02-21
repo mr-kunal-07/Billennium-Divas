@@ -131,11 +131,12 @@ export default function EmailTrackingDialog({
                   </div>
                 </div>
 
-                {entry.openCount > 0 && (
-                  <p className="text-xs text-muted-foreground">
-                    Opened {entry.openCount} time{entry.openCount > 1 ? "s" : ""}
-                  </p>
-                )}
+{(entry.openedCount ?? 0) > 0 && (
+  <p className="text-xs text-muted-foreground">
+    Opened {entry.openedCount ?? 0} time
+    {(entry.openedCount ?? 0) > 1 ? "s" : ""}
+  </p>
+)}
 
                 {entry.userAgent && (
                   <p className="text-xs text-muted-foreground truncate">
