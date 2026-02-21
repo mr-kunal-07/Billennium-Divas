@@ -1,5 +1,4 @@
 import LayoutWrapper from "@/components/AfterLogin/LayoutWrapper";
-import { Toaster } from "sonner";
 
 export default function DashboardLayout({
     children
@@ -9,7 +8,6 @@ export default function DashboardLayout({
     return (
         <LayoutWrapper>
             {children}
-            <Toaster />
         </LayoutWrapper>
     );
 }

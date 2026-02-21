@@ -369,7 +369,7 @@ export default function InvoiceBuilder() {
                                                 key={palette.id}
                                                 onClick={() => updateField("colorPalette", palette.id)}
                                                 className={`w-8 h-8 rounded-full border-2 transition-all ${invoiceData.colorPalette === palette.id
-                                                    ? "border-foreground scale-110 shadow-md"
+                                                    ? "border-foreground scale-110 "
                                                     : "border-transparent hover:scale-105"
                                                     }`}
                                                 style={{ backgroundColor: `hsl(${palette.primary})` }}

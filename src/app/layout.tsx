@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Provider from "@/Provider";
-import { Poppins } from "next/font/google";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: "Billennium Divas | Womenpreneurship Unleashed",
@@ -22,9 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.className}  min-h-screen bg-linear-to-br from-pink-50 via-white to-pink-50`}
+        className={`min-h-screen bg-linear-to-br from-pink-50 via-white to-pink-50`}
       >
-        <Provider>{children}</Provider>
+        {children}
       </body>
     </html>
   );

@@ -1,4 +1,3 @@
-import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function proxy(req: NextRequest) {
@@ -16,11 +15,7 @@ export async function proxy(req: NextRequest) {
         return NextResponse.next();
     }
 
-    const token = await getToken({
-        req,
-        secret: process.env.NEXTAUTH_SECRET,
-    });
-
+    const token = req.cookies.get("token")?.value;
     if (!token) {
         const loginUrl = new URL("/login", req.url);
         loginUrl.searchParams.set("callbackUrl", req.url);

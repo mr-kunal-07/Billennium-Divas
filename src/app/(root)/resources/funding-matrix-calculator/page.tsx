@@ -220,8 +220,8 @@ export default function FundingMatrixCalculator() {
     const recommendations = generateRecommendations();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto">
+         <div className="min-h-screen bg-background">
+            <div className="container mx-auto px-4 py-6">
                 {/* Header */}
 
                 <div className="text-start mb-8">
@@ -236,7 +236,7 @@ export default function FundingMatrixCalculator() {
                 </div>
 
                 {/* Stage Selection */}
-                <div className="bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-200">
+                <div className="bg-white rounded-xl  p-6 mb-6 border border-gray-200">
                     <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <Target className="w-5 h-5 text-pink-600" />
                         Select Funding Stage
@@ -247,11 +247,10 @@ export default function FundingMatrixCalculator() {
                                 key={key}
                                 onClick={() => setCurrentStage(key as keyof typeof fundingStages)}
                                 className={`p-4 rounded-lg border-2 transition-all ${currentStage === key
-                                    ? 'border-pink-500 bg-pink-50 shadow-md transform scale-105'
+                                    ? 'border-pink-500 bg-pink-50  transform scale-105'
                                     : 'border-gray-200 hover:border-pink-300 hover:bg-gray-50'
                                     }`}
                             >
-                                <div className={`w-3 h-3 rounded-full ${stage.color} mb-2 mx-auto`}></div>
                                 <p className="font-semibold text-sm text-gray-900">{stage.name}</p>
                                 <p className="text-xs text-gray-600 mt-1">
                                     Median: {formatCurrency(stage.medianRound)}
@@ -265,15 +264,15 @@ export default function FundingMatrixCalculator() {
 
                     {/* Stage Info Pills */}
                     <div className="flex flex-wrap gap-2 text-xs">
-                        <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-200">
+                        <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-200">
                             <Clock className="w-3 h-3 inline mr-1" />
                             Timeline: {stageData.timeline}
                         </span>
-                        <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full border border-purple-200">
+                        <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-md border border-purple-200">
                             <Award className="w-3 h-3 inline mr-1" />
                             Runway: {stageData.targetRunway.min}-{stageData.targetRunway.max}mo
                         </span>
-                        <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full border border-green-200">
+                        <span className="px-3 py-1 bg-green-50 text-green-700 rounded-md border border-green-200">
                             <Zap className="w-3 h-3 inline mr-1" />
                             Burn Multiple: {stageData.burnMultiple.min}-{stageData.burnMultiple.max}x
                         </span>
@@ -283,7 +282,7 @@ export default function FundingMatrixCalculator() {
                 {/* Input Section */}
                 <div className="grid lg:grid-cols-2 gap-6 mb-6">
                     {/* Company Metrics */}
-                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                    <div className="bg-white rounded-xl  p-6 border border-gray-200">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                             <Calculator className="w-5 h-5 text-pink-600" />
                             Company Metrics
@@ -347,7 +346,7 @@ export default function FundingMatrixCalculator() {
                     </div>
 
                     {/* Financial Metrics */}
-                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                    <div className="bg-white rounded-xl  p-6 border border-gray-200">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                             <DollarSign className="w-5 h-5 text-pink-600" />
                             Financial Metrics
@@ -414,83 +413,138 @@ export default function FundingMatrixCalculator() {
                 </div>
 
                 {/* Efficiency Score Dashboard */}
-                <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl shadow-lg p-6 mb-6 text-white">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-2xl font-bold flex items-center gap-2">
-                            <Award className="w-6 h-6" />
-                            Investment Efficiency Score
-                        </h2>
+                <section className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-2xl p-8 mb-8 border border-gray-200 transition-all duration-300">
+
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-indigo-100 rounded-lg">
+                                <Award className="w-6 h-6 text-indigo-600" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-semibold text-gray-800">
+                                    Investment Efficiency Score
+                                </h2>
+                                <p className="text-sm text-gray-500">
+                                    Overall capital performance health
+                                </p>
+                            </div>
+                        </div>
+
                         <div className="text-right">
-                            <p className="text-5xl font-bold">{calculations.efficiencyScore.toFixed(0)}</p>
-                            <p className="text-sm opacity-90">out of 100</p>
+                            <p className="text-4xl font-bold text-gray-900">
+                                {calculations.efficiencyScore.toFixed(0)}
+                            </p>
+                            <p className="text-xs text-gray-500 uppercase tracking-wide">
+                                out of 100
+                            </p>
                         </div>
                     </div>
-                    <div className="w-full bg-white/20 rounded-full h-3 mb-4">
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-gray-200 rounded-full h-4 mb-6 overflow-hidden">
                         <div
-                            className="bg-white rounded-full h-3 transition-all duration-500"
+                            className="h-4 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-700 ease-out"
                             style={{ width: `${calculations.efficiencyScore}%` }}
-                        ></div>
+                        />
                     </div>
-                    <div className="grid grid-cols-3 gap-4 text-sm">
-                        <div>
-                            <p className="opacity-80 mb-1">Dilution</p>
-                            <p className="text-xl font-bold">{calculations.dilutionScore.toFixed(0)}</p>
+
+                    {/* Sub Scores */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {/* Dilution */}
+                        <div className="bg-white rounded-xl p-4 border border-gray-100 ">
+                            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                                Dilution
+                            </p>
+                            <p className="text-2xl font-bold text-indigo-600">
+                                {calculations.dilutionScore.toFixed(0)}
+                            </p>
                         </div>
-                        <div>
-                            <p className="opacity-80 mb-1">Runway</p>
-                            <p className="text-xl font-bold">{calculations.runwayScore.toFixed(0)}</p>
+
+                        {/* Runway */}
+                        <div className="bg-white rounded-xl p-4 border border-gray-100 ">
+                            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                                Runway
+                            </p>
+                            <p className="text-2xl font-bold text-emerald-600">
+                                {calculations.runwayScore.toFixed(0)}
+                            </p>
                         </div>
-                        <div>
-                            <p className="opacity-80 mb-1">Efficiency</p>
-                            <p className="text-xl font-bold">{calculations.burnMultipleScore.toFixed(0)}</p>
+
+                        {/* Burn Multiple */}
+                        <div className="bg-white rounded-xl p-4 border border-gray-100 ">
+                            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                                Efficiency
+                            </p>
+                            <p className="text-2xl font-bold text-purple-600">
+                                {calculations.burnMultipleScore.toFixed(0)}
+                            </p>
                         </div>
                     </div>
-                </div>
+                </section>
 
                 {/* Results Dashboard */}
-                <div className="grid lg:grid-cols-3 gap-6 mb-6">
+                <div className="grid lg:grid-cols-3 gap-6 mb-8">
+
                     {/* Dilution Analysis */}
-                    <div className="bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
-                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                            <PieChart className="w-5 h-5" />
+                    <section className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-6 border border-pink-100  transition-all duration-300">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
+                            <PieChart className="w-5 h-5 text-pink-600" />
                             Dilution Analysis
                         </h3>
-                        <div className="space-y-4">
+
+                        <div className="space-y-5">
                             <div>
-                                <p className="text-pink-100 text-sm">Equity Given Up</p>
-                                <p className="text-3xl font-bold">{calculations.dilutionPercentage.toFixed(2)}%</p>
+                                <p className="text-gray-600 text-sm">Equity Given Up</p>
+                                <p className="text-3xl font-bold text-gray-900">
+                                    {calculations.dilutionPercentage.toFixed(2)}%
+                                </p>
                             </div>
-                            <div className="border-t border-pink-400/30 pt-4">
-                                <p className="text-pink-100 text-sm">New Founder Equity</p>
-                                <p className="text-2xl font-bold">{calculations.newFounderEquity.toFixed(2)}%</p>
+
+                            <div className="border-t border-gray-200 pt-4">
+                                <p className="text-gray-600 text-sm">New Founder Equity</p>
+                                <p className="text-2xl font-semibold text-gray-900">
+                                    {calculations.newFounderEquity.toFixed(2)}%
+                                </p>
                             </div>
-                            <div className="bg-white/20 rounded-lg p-3">
-                                <p className="text-xs text-pink-100 mb-1">2025 Benchmark Range</p>
-                                <p className="text-sm font-semibold">{stageData.dilution.min}% - {stageData.dilution.max}%</p>
-                                <p className="text-xs text-pink-100 mt-1">Median: {stageData.dilution.median}%</p>
+
+                            <div className="bg-white rounded-xl p-4 border border-gray-200">
+                                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wide">
+                                    2025 Benchmark Range
+                                </p>
+                                <p className="text-sm font-semibold text-gray-900">
+                                    {stageData.dilution.min}% – {stageData.dilution.max}%
+                                </p>
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Median: {stageData.dilution.median}%
+                                </p>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    {/* Valuation */}
-                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+
+                    {/* Valuation Metrics */}
+                    <section className="bg-white rounded-2xl p-6 border border-gray-200  transition-all duration-300">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
                             <TrendingUp className="w-5 h-5 text-green-600" />
                             Valuation Metrics
                         </h3>
-                        <div className="space-y-4">
+
+                        <div className="space-y-5">
                             <div>
                                 <p className="text-gray-600 text-sm">Pre-Money Valuation</p>
                                 <p className="text-2xl font-bold text-gray-900">
                                     {formatCurrency(parseFloat(currentValuation) || 0)}
                                 </p>
                             </div>
+
                             <div>
                                 <p className="text-gray-600 text-sm">Investment Amount</p>
-                                <p className="text-2xl font-bold text-pink-600">
+                                <p className="text-2xl font-semibold text-gray-900">
                                     {formatCurrency(parseFloat(fundingNeeded) || 0)}
                                 </p>
                             </div>
+
                             <div className="border-t border-gray-200 pt-4">
                                 <p className="text-gray-600 text-sm">Post-Money Valuation</p>
                                 <p className="text-3xl font-bold text-green-600">
@@ -498,41 +552,46 @@ export default function FundingMatrixCalculator() {
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    {/* Runway */}
-                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+
+                    {/* Runway Analysis */}
+                    <section className="bg-white rounded-2xl p-6 border border-gray-200  transition-all duration-300">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
                             <Clock className="w-5 h-5 text-orange-600" />
                             Runway Analysis
                         </h3>
-                        <div className="space-y-4">
+
+                        <div className="space-y-5">
                             <div>
                                 <p className="text-gray-600 text-sm">Gross Runway</p>
                                 <p className="text-2xl font-bold text-gray-900">
                                     {formatNumber(calculations.grossRunway)} months
                                 </p>
                             </div>
+
                             <div>
                                 <p className="text-gray-600 text-sm">Net Runway (with MRR)</p>
-                                <p className="text-3xl font-bold text-green-600">
+                                <p className="text-3xl font-bold text-gray-900">
                                     {formatNumber(calculations.netRunway)} months
                                 </p>
                             </div>
-                            <div className={`rounded-lg p-3 border ${calculations.monthsOfCapital >= stageData.targetRunway.min
-                                ? 'bg-green-50 border-green-200'
-                                : 'bg-orange-50 border-orange-200'
+
+                            <div className={`rounded-xl p-4 border text-sm font-medium ${calculations.monthsOfCapital >= stageData.targetRunway.min
+                                    ? 'bg-green-50 border-green-200 text-green-700'
+                                    : 'bg-orange-50 border-orange-200 text-orange-700'
                                 }`}>
-                                <p className="text-xs font-medium mb-1">
-                                    {calculations.monthsOfCapital >= stageData.targetRunway.min ? '✅' : '⚠️'} Target: {stageData.targetRunway.min}-{stageData.targetRunway.max}mo
-                                </p>
+                                {calculations.monthsOfCapital >= stageData.targetRunway.min
+                                    ? '✓ On Target'
+                                    : '⚠ Below Target'} — Goal: {stageData.targetRunway.min}-{stageData.targetRunway.max} months
                             </div>
                         </div>
-                    </div>
+                    </section>
+
                 </div>
 
                 {/* Stage Information */}
-                <div className="bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-200">
+                <div className="bg-white rounded-xl  p-6 mb-6 border border-gray-200">
                     <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <Users className="w-5 h-5 text-pink-600" />
                         {stageData.name} Stage Benchmarks (2025)
@@ -583,77 +642,8 @@ export default function FundingMatrixCalculator() {
                     </div>
                 </div>
 
-                {/* Recommendations */}
-                <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200 mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Info className="w-5 h-5 text-blue-600" />
-                        Strategic Recommendations
-                    </h2>
-                    <div className="space-y-3">
-                        {recommendations.length === 0 ? (
-                            <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <Info className="w-5 h-5 text-gray-400" />
-                                <p className="text-sm text-gray-600">
-                                    Enter your metrics above to receive personalized recommendations
-                                </p>
-                            </div>
-                        ) : (
-                            recommendations.map((rec, idx) => (
-                                <div
-                                    key={idx}
-                                    className={`flex items-start gap-3 rounded-lg p-4 border ${rec.type === 'error'
-                                        ? 'bg-red-50 border-red-200'
-                                        : rec.type === 'warning'
-                                            ? 'bg-orange-50 border-orange-200'
-                                            : rec.type === 'success'
-                                                ? 'bg-green-50 border-green-200'
-                                                : 'bg-blue-50 border-blue-200'
-                                        }`}
-                                >
-                                    <AlertCircle
-                                        className={`w-5 h-5 mt-0.5 flex-shrink-0 ${rec.type === 'error'
-                                            ? 'text-red-600'
-                                            : rec.type === 'warning'
-                                                ? 'text-orange-600'
-                                                : rec.type === 'success'
-                                                    ? 'text-green-600'
-                                                    : 'text-blue-600'
-                                            }`}
-                                    />
-                                    <div>
-                                        <p
-                                            className={`font-semibold mb-1 ${rec.type === 'error'
-                                                ? 'text-red-900'
-                                                : rec.type === 'warning'
-                                                    ? 'text-orange-900'
-                                                    : rec.type === 'success'
-                                                        ? 'text-green-900'
-                                                        : 'text-blue-900'
-                                                }`}
-                                        >
-                                            {rec.title}
-                                        </p>
-                                        <p
-                                            className={`text-sm ${rec.type === 'error'
-                                                ? 'text-red-700'
-                                                : rec.type === 'warning'
-                                                    ? 'text-orange-700'
-                                                    : rec.type === 'success'
-                                                        ? 'text-green-700'
-                                                        : 'text-blue-700'
-                                                }`}
-                                        >
-                                            {rec.message}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-
                 {/* Check Sizes Reference */}
-                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl shadow-lg p-6 border border-indigo-200">
+                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl  p-6 border border-indigo-200">
                     <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <DollarSign className="w-5 h-5 text-indigo-600" />
                         Typical Check Sizes - {stageData.name}

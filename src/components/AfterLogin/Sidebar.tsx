@@ -12,11 +12,9 @@ import {
     HelpCircle,
     Star,
     Calendar,
-    X,
     ChevronLeft,
     ChevronRight,
     BarChart3,
-    Form,
 } from "lucide-react";
 import { useSidebar } from "@/context/SidebarContext";
 
@@ -103,9 +101,15 @@ export default function Sidebar() {
                 },
                 {
                     id: 'invoice',
-                    label: "Make Your Invoice",
+                    label: "Manage Invoices",
                     icon: <TbInvoice size={18} />,
                     href: "/resources/invoice",
+                },
+                {
+                    id: 'pitchdeck',
+                    label: "Pitch Deck",
+                    icon: <TbInvoice size={18} />,
+                    href: "/resources/pitchdeck",
                 }
             ],
         },

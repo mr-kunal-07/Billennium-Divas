@@ -563,8 +563,8 @@ export default function StartupValuationCalculator() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
-            <div className="">
+         <div className="min-h-screen bg-background">
+            <div className="container mx-auto px-4 py-6">
                 <div className="">
 
                     {/* Header */}

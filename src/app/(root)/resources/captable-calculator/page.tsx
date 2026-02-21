@@ -174,11 +174,6 @@ export default function CapTableCalculator() {
         }
     }, [stakeholders]);
 
-    const updateStakeholder = useCallback((id: string, updates: Partial<Stakeholder>) => {
-        setStakeholders(stakeholders.map(s => s.id === id ? { ...s, ...updates } : s));
-        setEditingId(null);
-    }, [stakeholders]);
-
     // Funding Round Management
     const addFundingRound = useCallback(() => {
         const validation = validateFundingRound(newRound);
@@ -1042,8 +1037,8 @@ export default function CapTableCalculator() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-4 sm:p-6 lg:p-8">
-            <div className="max-w-7xl mx-auto">
+         <div className="min-h-screen bg-background">
+            <div className="container mx-auto px-4 py-6">
                 <div className="">
 
                     {/* Header */}
