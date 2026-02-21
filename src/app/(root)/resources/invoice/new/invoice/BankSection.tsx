@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BankDetails } from "@/types/invoice";
+import { BankDetails } from "@/hooks/invoice";
 
 interface BankSectionProps {
   bank: BankDetails;
