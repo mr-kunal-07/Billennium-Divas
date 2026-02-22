@@ -1,13 +1,14 @@
 import LayoutWrapper from "@/components/AfterLogin/LayoutWrapper";
+import AuthGuard from "@/components/AuthGuard";
 
-export default function DashboardLayout({
-    children
+export default function RootLayout({
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode;
 }) {
-    return (
-        <LayoutWrapper>
-            {children}
-        </LayoutWrapper>
-    );
+  return (
+    <AuthGuard>
+      <LayoutWrapper>{children}</LayoutWrapper>
+    </AuthGuard>
+  );
 }

@@ -1,19 +1,18 @@
-import FAQ from '@/components/BeforLogin/FAQ'
-import Footer from '@/components/BeforLogin/Footor'
-import Testimonials from '@/components/BeforLogin/Testimonials'
-import Welcome from '@/components/BeforLogin/Welcome'
+import RedirectIfAuthenticated from "@/components/RedirectIfAuthenticated";
+import FAQ from "@/components/BeforLogin/FAQ";
+import Footer from "@/components/BeforLogin/Footor";
+import Testimonials from "@/components/BeforLogin/Testimonials";
+import Welcome from "@/components/BeforLogin/Welcome";
 
-
-const page = () => {
-
+export default function Page() {
   return (
-    <div>
-      <Welcome />
-      <FAQ />
-      <Testimonials />
-      <Footer />
-    </div>
-  )
+    <RedirectIfAuthenticated>
+      <div>
+        <Welcome />
+        <FAQ />
+        <Testimonials />
+        <Footer />
+      </div>
+    </RedirectIfAuthenticated>
+  );
 }
-
-export default page

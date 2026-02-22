@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Download, Printer, Send, Loader2 } from "lucide-react";
+import { ArrowLeft, Printer, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InvoiceData } from "@/hooks/invoice";
 import { formatCurrency } from "@/lib/currency";
@@ -108,11 +108,8 @@ export default function InvoicePreview({ data, totals, amountInWords, onBack }: 
             <Send className="w-4 h-4" />
             {!hasClientEmail ? "No Email" : "Send"}
           </Button>
-          <Button variant="outline" onClick={handlePrint} className="gap-2">
-            <Printer className="w-4 h-4" />Print
-          </Button>
-          <Button variant='outline' onClick={handlePrint} className="gap-2">
-            <Download className="w-4 h-4" />Download PDF
+          <Button variant="outline" onClick={handlePrint} className="gap-2" title="Print or save as PDF">
+            <Printer className="w-4 h-4" />Print / PDF
           </Button>
         </div>
       </div>

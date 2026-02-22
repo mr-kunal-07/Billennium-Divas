@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Save, FolderOpen, FileText, ArrowLeft, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -75,16 +75,7 @@ export default function InvoiceBuilder({ mode = "new", invoiceId }: InvoiceBuild
     loading,
   } = useInvoiceAPI();
 
-  // ─── Load invoice when editing / viewing ─────────────────────────────────
-
-  useEffect(() => {
-    if (invoiceId && (mode === "edit" || mode === "view")) {
-      loadInvoice(invoiceId);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [invoiceId, mode]);
-
-  const loadInvoice = async (id: string) => {
+  const loadInvoice = useCallback(async (id: string) => {
     setIsLoading(true);
     try {
       const invoice = await fetchInvoice(id);
@@ -95,15 +86,21 @@ export default function InvoiceBuilder({ mode = "new", invoiceId }: InvoiceBuild
         if (mode === "view") setShowPreview(true);
       } else {
         toast.error("Invoice not found");
-        router.push("/dashboard");
+        router.push("/resources/invoice");
       }
     } catch {
       toast.error("Failed to load invoice");
-      router.push("/dashboard");
+      router.push("/resources/invoice");
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [mode, fetchInvoice, router]);
+
+  useEffect(() => {
+    if (invoiceId && (mode === "edit" || mode === "view")) {
+      loadInvoice(invoiceId);
+    }
+  }, [invoiceId, mode, loadInvoice]);
 
   // ─── Load saved invoices for load dialog ─────────────────────────────────
 
@@ -237,7 +234,7 @@ export default function InvoiceBuilder({ mode = "new", invoiceId }: InvoiceBuild
         const result = await updateInvoiceAPI(currentInvoiceId, invoiceData, invoiceTotals);
         if (result) {
           toast.success("Invoice updated successfully");
-          router.push("/dashboard");
+          router.push("/resources/invoice");
         } else {
           toast.error("Failed to update invoice");
         }
@@ -246,7 +243,7 @@ export default function InvoiceBuilder({ mode = "new", invoiceId }: InvoiceBuild
         if (result) {
           setCurrentInvoiceId(result.id ?? result._id ?? null);
           toast.success("Invoice saved successfully");
-          router.push("/dashboard");
+          router.push("/resources/invoice");
         } else {
           toast.error("Failed to save invoice");
         }
@@ -327,7 +324,7 @@ export default function InvoiceBuilder({ mode = "new", invoiceId }: InvoiceBuild
               <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push("/resources/invoice")}
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                Back
@@ -373,7 +370,7 @@ export default function InvoiceBuilder({ mode = "new", invoiceId }: InvoiceBuild
                   <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
                     Cancel
                   </Button>
-                  <Button variant="outline" onClick={handleSave} disabled={isSaving}>
+                  <Button onClick={handleSave} disabled={isSaving}>
                     {isSaving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                     {currentInvoiceId ? "Update" : "Save"}
                   </Button>

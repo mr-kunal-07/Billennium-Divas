@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useUserRole } from '@/hooks/useUserRole';
 import {
-    TrendingUp, Users, Briefcase, Bell, Search, Filter, Clock,
-    MapPin, DollarSign, ChevronRight, Calendar, Settings, LogOut,
-    Globe, Target, Award, TrendingDown, Eye, Heart, CheckCircle
+    TrendingUp, Users, Briefcase, Filter, Clock,
+    MapPin, ChevronRight, Calendar, Globe, Target, Award, TrendingDown, Eye, Heart, CheckCircle,
+    DollarSign
 } from 'lucide-react';
 
 // ============ DATA ============
@@ -13,7 +13,6 @@ const STATS = [
     {
         label: 'Portfolio Value',
         value: '₹3.2Cr',
-        icon: DollarSign,
         change: '+12.5%',
         positive: true,
         subtext: 'vs last quarter',
@@ -137,7 +136,6 @@ const ACTIVITIES = [
 ];
 
 const TABS = ['All Deals', 'New Matches', 'Featured', 'Saved'];
-const NAV_LINKS = ['Dashboard', 'Deal Flow', 'Portfolio', 'Analytics', 'Network'];
 const MONTH_STATS = [
     { label: 'Deals Reviewed', value: '24' },
     { label: 'Meetings Held', value: '8' },
@@ -287,82 +285,18 @@ const ActivityItem = ({ activity }: { activity: typeof ACTIVITIES[0] }) => {
 
 // ============ MAIN COMPONENT ============
 const InvestorDashboard = () => {
-    const { data: session } = useSession();
+    const { profile } = useUserRole();
     const [activeTab, setActiveTab] = useState('all-deals');
-    const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-    const userName = session?.user?.name || 'Investor';
-    const userEmail = session?.user?.email || '';
-    const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
-
-    const handleLogout = () => signOut({ callbackUrl: '/login' });
+    const userName = (profile as { name?: string } | null)?.name || 'Investor';
+    const firstName = userName.split(' ')[0] || 'Investor';
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Navigation */}
-            <nav className="bg-white sticky top-0 z-50 shadow-sm">
-                <div className="max-w-[1600px] mx-auto px-6 py-3">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-8">
-                            <h1 className="text-xl font-semibold text-pink-600">Billennium Divas</h1>
-                            <div className="hidden lg:flex items-center gap-6 text-sm">
-                                {NAV_LINKS.map((link, i) => (
-                                    <a key={link} href="#"
-                                        className={`${i === 0 ? 'text-gray-900 font-medium' : 'text-gray-600 font-normal hover:text-gray-900'} transition-colors`}>
-                                        {link}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                            <div className="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2 gap-2 w-80">
-                                <Search className="w-4 h-4 text-gray-500" />
-                                <input type="text" placeholder="Search startups, sectors, founders..."
-                                    className="bg-transparent outline-none text-sm flex-1" />
-                            </div>
-
-                            <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                                <Bell className="w-5 h-5" />
-                                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-pink-600 rounded-full" />
-                            </button>
-
-                            <div className="relative">
-                                <button onClick={() => setShowProfileMenu(!showProfileMenu)}
-                                    className="flex items-center gap-3 p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
-                                    <div className="w-9 h-9 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                        {userInitials}
-                                    </div>
-                                    <div className="hidden md:block text-left">
-                                        <div className="text-sm font-semibold text-gray-900">{userName}</div>
-                                        <div className="text-xs text-gray-500">Investor</div>
-                                    </div>
-                                </button>
-
-                                {showProfileMenu && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg  py-2">
-                                        <div className="px-4 py-3 border-b border-gray-300">
-                                            <p className="font-semibold text-gray-900">{userName}</p>
-                                            <p className="text-xs text-gray-500">{userEmail}</p>
-                                        </div>
-                                        <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2">
-                                            <Settings className="w-4 h-4" />Settings
-                                        </button>
-                                        <button onClick={handleLogout} className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 text-red-600">
-                                            <LogOut className="w-4 h-4" />Logout
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <main className="max-w-[1600px] mx-auto px-6 py-6">
+            <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6">
                 {/* Welcome */}
                 <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900">Welcome back, {userName.split(' ')[0]} 👋</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">Welcome back, {firstName} 👋</h2>
                     <p className="text-gray-600 mt-1">Here's what's happening with your investments today</p>
                 </div>
 

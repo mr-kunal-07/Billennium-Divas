@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, Building, User, LucideIcon, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
 
 // ==== TYPES ====
 interface RoleType {
@@ -68,6 +70,13 @@ const RoleCard = ({ role, isSelected, onSelect }: RoleCardProps) => {
 export default function Page() {
     const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
     const router = useRouter();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) router.replace("/dashboard");
+        });
+        return unsubscribe;
+    }, [router]);
 
     const handleContinue = () => {
         if (selectedRole) router.push(selectedRole.route);
