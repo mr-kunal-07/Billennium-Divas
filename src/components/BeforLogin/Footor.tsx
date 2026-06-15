@@ -2,15 +2,15 @@ import { ArrowRight } from "lucide-react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 const Footer = () => {
     const socialLinks = [
-        { icon: FaInstagram, href: "#", label: "Instagram" },
-        { icon: FaLinkedin, href: "#", label: "LinkedIn" },
-        { icon: FaYoutube, href: "#", label: "YouTube" },
-        { icon: FaFacebook, href: "#", label: "Facebook" },
+        { icon: FaInstagram, href: "https://www.instagram.com/billenniumdivas", label: "Instagram" },
+        { icon: FaLinkedin, href: "https://www.linkedin.com/company/billenniumdivas", label: "LinkedIn" },
+        { icon: FaYoutube, href: "https://www.youtube.com/@billenniumdivas", label: "YouTube" },
+        { icon: FaFacebook, href: "https://www.facebook.com/billenniumdivas", label: "Facebook" },
     ];
 
     const footerLinks = [
         { label: "About us", href: "/about" },
-        { label: "Privacy Policy", href: "/privacy" },
+        { label: "Privacy Policy", href: "/privacypolicy" },
         { label: "Terms and Conditions", href: "/terms" },
         { label: "Contact us", href: "/contact" },
     ];
@@ -49,6 +49,8 @@ const Footer = () => {
                                     <a
                                         key={i}
                                         href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         aria-label={social.label}
                                         className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-pink-100 hover:text-pink-600 transition-colors"
                                     >
