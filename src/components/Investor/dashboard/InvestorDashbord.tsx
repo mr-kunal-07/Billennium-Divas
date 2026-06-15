@@ -150,9 +150,6 @@ const StatCard = ({ stat }: { stat: typeof STATS[0] }) => {
     return (
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center shadow-md`}>
-                    <Icon className="w-6 h-6 text-white" />
-                </div>
                 <div className={`flex items-center gap-1 text-sm font-semibold ${stat.positive ? 'text-green-600' : 'text-red-600'}`}>
                     <TrendIcon className="w-4 h-4" />
                     {stat.change}
