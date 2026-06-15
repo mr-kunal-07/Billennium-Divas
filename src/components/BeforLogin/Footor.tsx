@@ -1,13 +1,11 @@
-import React from 'react';
-import { Instagram, Linkedin, Twitter, Youtube, Facebook, Mail, ArrowRight } from 'lucide-react';
-
+import { ArrowRight } from "lucide-react";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 const Footer = () => {
     const socialLinks = [
-        { icon: Instagram, href: "#", label: "Instagram" },
-        { icon: Linkedin, href: "#", label: "LinkedIn" },
-        { icon: Twitter, href: "#", label: "Twitter" },
-        { icon: Youtube, href: "#", label: "YouTube" },
-        { icon: Facebook, href: "#", label: "Facebook" },
+        { icon: FaInstagram, href: "#", label: "Instagram" },
+        { icon: FaLinkedin, href: "#", label: "LinkedIn" },
+        { icon: FaYoutube, href: "#", label: "YouTube" },
+        { icon: FaFacebook, href: "#", label: "Facebook" },
     ];
 
     const footerLinks = [
@@ -20,7 +18,7 @@ const Footer = () => {
     return (
         <>
             {/* CTA Section */}
-            <section className="bg-gradient-to-r from-pink-100 via-purple-100 to-pink-100 py-20">
+            <section className="bg-linear-to-r from-pink-100 via-purple-100 to-pink-100 py-20">
                 <div className="max-w-4xl mx-auto text-center px-6">
                     <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-8">
                         Ready to accelerate your entrepreneurship journey?
